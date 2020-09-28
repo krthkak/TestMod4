@@ -1,0 +1,60 @@
+<template>
+    <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+            <thead>
+            <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                <div class="slds-truncate" title="Bill Id">Bill Id</div>
+                </th>
+                <th class="" scope="col">
+                <div class="slds-truncate" title="Bill Related Account">Bill Related Account</div>
+                </th>
+                <th class="" scope="col">
+                <div class="slds-truncate" title="Bill Category">Bill Category</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Amount">Amount</div>
+                    </th>
+                <th class="" scope="col">
+                <div class="slds-truncate" title="Due Date">Due Date</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Stock Quantity">Pay Bill</div>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+                <template for:each={billlist} for:item="bill" >
+                        <tr key = {abc} class="slds-hint-parent">
+                            <td data-label="Bill Id">
+                            <div class="slds-truncate" >{bill.Name}</div>
+                            </td>
+                            <td data-label="Bill Related Account">
+                            <div class="slds-truncate" >{bill.User_Paypal__c}</div>
+                            </td>
+                            <td data-label="Bill Category">
+                            <div class="slds-truncate" >{bill.category__c}</div>
+                            </td>
+                            <td data-label="Amount">
+                            <div class="slds-truncate" >{bill.amount__c}</div>
+                            </td>
+                            <td data-label="Pay Beforee">
+                                <div class="slds-truncate" >{bill.pay_before__c}</div>
+                                </td>
+                            <td data-label="Confidence">
+                                <div class="slds-truncate" >
+                                    <lightning-button label=Pay onclick={handlePay} value = {bill.Id}></lightning-button>
+                                </div>
+                            </td>
+                        </tr>
+                </template>        
+            </tbody>
+            </table>
+    
+    <lightning-button 
+            class="slds-m-top_small" 
+            variant="brand"  
+            name="continue" 
+            label="Continue"
+            onclick={handleContinue}>
+            </lightning-button>
+</template>
