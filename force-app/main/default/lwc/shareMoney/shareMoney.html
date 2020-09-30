@@ -1,0 +1,66 @@
+<template>
+
+    <template if:true = {showFriendList}>
+    <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+        <thead>
+        <tr class="slds-line-height_reset">
+            
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Friend Name">Pal Referred Name</div>
+                </th>
+
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Friend Name">Name</div>
+                    </th>
+            <th class="" scope="col">
+            <div class="slds-truncate" title="Type">Relationship type</div>
+            </th>
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Stock Quantity">Send Money</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <template for:each={friendList} for:item="friend" >
+                    <tr key = {friend.id} class="slds-hint-parent">
+                        <td data-label="friend Id">
+                        <div class="slds-truncate" >{friend.Name}</div>
+                        </td>
+                        <td data-label="friend Id">
+                            <div class="slds-truncate" >{friend.Friend_Lookup__r.Name}</div>
+                            </td>
+                        <td data-label="pal TYPE">
+                            <div class="slds-truncate" >{friend.type__c}</div>
+                            </td>
+                       
+                        <td data-label="Confidence">
+                            <div class="slds-truncate" >
+                                <lightning-button label=Select onclick={handleChoose} value = {friend}></lightning-button>
+                            </div>
+                        </td>
+                    </tr>
+            </template>        
+        </tbody>
+        </table>
+    </template>
+
+    <template if:true = {showSendMoney}>
+        
+            <lightning-record-view-form
+                    record-id={recordId}
+                    object-api-name="wallet__c">
+                    <lightning-input value = {userName} read-only>Name</lightning-input>
+                <div class="slds-box">
+                    <lightning-output-field field-name="balance__c">
+                    </lightning-output-field>
+                </div>
+            </lightning-record-view-form>
+
+            <lightning-input type = "number" label = "Enter amount" onchange = {changeCapture}>Enter amount</lightning-input>  
+            <br>
+            <lightning-button
+            label="Send"
+            onclick={handleSend}
+            ></lightning-button>
+    </template>
+</template>

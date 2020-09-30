@@ -1,0 +1,46 @@
+<template>
+    <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
+        <thead>
+        <tr class="slds-line-height_reset">
+            <th class="" scope="col">
+            <div class="slds-truncate" title="PassBook Id">PassBook Vendor Name</div>
+            </th>
+            <th class="" scope="col">
+            <div class="slds-truncate" title="PassBook Related Account">PassBook Related Account</div>
+            </th>
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Amount">Amount</div>
+                </th>
+            <th class="" scope="col">
+            <div class="slds-truncate" title="Datetime">Datetime</div>
+            </th>
+            <th class="" scope="col">
+                <div class="slds-truncate" title="Mail Transaction">Mail Transaction</div>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+            <template for:each={passbooklist} for:item="PassBook" >
+                    <tr key = {abc} class="slds-hint-parent">
+                        <td data-label="PassBook Id">
+                        <div class="slds-truncate" >{PassBook.Name}</div>
+                        </td>
+                        <td data-label="PassBook Related Account">
+                        <div class="slds-truncate" >{PassBook.User_Paypal__r.Name}</div>
+                        </td>
+                        <td data-label="Amount">
+                        <div class="slds-truncate" >{PassBook.amount__c}</div>
+                        </td>
+                        <td data-label="Datetime">
+                            <div class="slds-truncate" >{PassBook.Datetime__c}</div>
+                            </td>
+                        <td data-label="Confidence">
+                            <div class="slds-truncate" >
+                                <lightning-button label='Email Transaction' onclick={handleEmail} value = {PassBook}></lightning-button>
+                            </div>
+                        </td>
+                    </tr>
+            </template>        
+        </tbody>
+        </table>
+</template>

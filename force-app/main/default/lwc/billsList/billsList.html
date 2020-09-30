@@ -29,7 +29,7 @@
                             <div class="slds-truncate" >{bill.Name}</div>
                             </td>
                             <td data-label="Bill Related Account">
-                            <div class="slds-truncate" >{bill.User_Paypal__c}</div>
+                            <div class="slds-truncate" >{bill.User_Paypal__r.Name}</div>
                             </td>
                             <td data-label="Bill Category">
                             <div class="slds-truncate" >{bill.category__c}</div>
@@ -49,12 +49,4 @@
                 </template>        
             </tbody>
             </table>
-    
-    <lightning-button 
-            class="slds-m-top_small" 
-            variant="brand"  
-            name="continue" 
-            label="Continue"
-            onclick={handleContinue}>
-            </lightning-button>
 </template>

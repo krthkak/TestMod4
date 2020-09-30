@@ -11,21 +11,35 @@ public with sharing class GetBillData {
 
 
     @AuraEnabled()
-    public static String updateBillObject(String recordId){
+    public static List<String> updateBillObject(String recordId){
         system.debug('inside updateBillObject');
-        bills__C bill =  [select successful__c,paid__c from Bills__c where id=:recordId][0];
-
+        List<String> result = new List<String>{'status','id','error'};
+        bills__C bill =  [select amount__c,successful__c,paid__c,User_Paypal__c from Bills__c where id=:recordId][0];
         bill.successful__c=true;
         bill.paid__c=true;
+
+        wallet__c u = [select balance__c from wallet__c where User_Paypal__c=:bill.User_Paypal__c][0];
+
         try
         {
-            update bill;
-            return 'success';
+            if(bill.amount__c<=u.balance__c)
+                {
+                    update bill;
+                    u.balance__c = u.balance__c - bill.amount__c;
+                    update u;
+                    result[0]='success';
+                }
+                else {
+                    result[1]=u.Id;
+                }
         }
         catch(Exception e)
         {
-            return e.getMessage();
+            result[2]=e.getMessage();
+            
         }
+        return result;
+        
     }
 
     
