@@ -4,10 +4,11 @@ public with sharing class Friends {
     }
 
     @AuraEnabled(cacheable=true)
-    public static List<Pals__c> getFriends(Id record){
+    public static List<Pals__c> getFriends(Id record,String friend){
+        String f = '%'+friend+'%';
         Id userId = [select User_Paypal__c from wallet__c where id=:record][0].User_Paypal__c;
         
-        List<Pals__c> pals = [select Name,Friend_Lookup__r.name,type__c,user_paypal__r.name from Pals__c where User_Paypal__c=:userId];
+        List<Pals__c> pals = [select Name,Friend_Lookup__r.name,Friend_Lookup__r.Email__c,type__c,user_paypal__r.name from Pals__c where User_Paypal__c=:userId and Friend_Lookup__r.name Like :f];
 
         return pals;
     }
@@ -32,10 +33,20 @@ public with sharing class Friends {
         {
             return 'exception';
         }
-        
-        
-        
-        
+          
+    }
+
+    @AuraEnabled
+    public static string sendLowEmail(String uName,String fName,String fEmail){
+
+        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+        message.toAddresses = new String[] { fEmail};
+        message.subject = 'Update from friend ,'+uName;
+        message.plainTextBody = 'Hello '+fName+',\nYour friend '+uName+' has a low balance in their wallet ';
+        Messaging.SingleEmailMessage[] messages =   new List<Messaging.SingleEmailMessage> {message};
+        Messaging.SendEmailResult[] results = Messaging.sendEmail(messages);
+
+        return 'success';
     }
 
 

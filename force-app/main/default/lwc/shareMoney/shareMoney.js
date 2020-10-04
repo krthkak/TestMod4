@@ -2,6 +2,7 @@ import { api, LightningElement, track, wire } from 'lwc';
 import getFriendList from '@salesforce/apex/Friends.getFriends';
 import moneySend from '@salesforce/apex/Friends.sendMoney';
 import { NavigationMixin } from 'lightning/navigation'
+import sendLowEmail from '@salesforce/apex/Friends.sendLowEmail'
 
 export default class ShareMoney extends NavigationMixin(LightningElement) {
     @api recordId;
@@ -13,10 +14,15 @@ export default class ShareMoney extends NavigationMixin(LightningElement) {
 
     @api userName;
     @api sendAmount = null;
+    @api friendName="";
 
+    nameCapture(event)
+    {
+        this.friendName = event.target.value;
+        console.log(this.friendName)
+    }
 
-
-    @wire(getFriendList,{record:'$recordId'})
+    @wire(getFriendList,{record:'$recordId',friend:'$friendName'})
     wiredFriends({error,data}){
         if (data) {
             this.friendList = data;
@@ -82,5 +88,29 @@ export default class ShareMoney extends NavigationMixin(LightningElement) {
             )
         }
     }
+
+
+    handleLowBalance(event)
+    {
+        console.log('sendLowEmail')
+        sendLowEmail({uName:this.userName,fName:this.friend.Friend_Lookup__r.Name,fEmail:this.friend.Friend_Lookup__r.Email__c}).then(
+            (result) =>{
+                console.log(result)
+                alert('Mail sent')
+                this[NavigationMixin.Navigate]({
+                    type: 'standard__recordPage',
+                    attributes: {
+                        recordId: this.recordId,
+                        objectApiName: 'wallet__c', // objectApiName is optional
+                        actionName: 'view'
+                    }
+                });
+            }
+        ).catch(error => {
+            console.log(error)
+        })
+    }
+
+
 
 }

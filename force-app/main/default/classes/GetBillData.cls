@@ -6,7 +6,7 @@ public with sharing class GetBillData {
 
     @AuraEnabled(cacheable=true)
     public static List<Bills__c> getAllBills(){
-        return [select Name,category__c,User_Paypal__r.name,pay_before__c,amount__c,successful__c,paid__c from Bills__c where successful__c = false and flaged__c = false];
+        return [select Name,category__c,User_Paypal__r.name,pay_before__c,amount__c,successful__c,paid__c from Bills__c where successful__c = false and flaged__c = false and Canceled__c = false];
     }
 
 

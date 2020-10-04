@@ -14,6 +14,11 @@
             <th class="" scope="col">
             <div class="slds-truncate" title="Datetime">Datetime</div>
             </th>
+            <template if:true={isAdmin}>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="Cancel">Cancel</div>
+                </th>
+            </template>
             <th class="" scope="col">
                 <div class="slds-truncate" title="Mail Transaction">Mail Transaction</div>
             </th>
@@ -34,9 +39,18 @@
                         <td data-label="Datetime">
                             <div class="slds-truncate" >{PassBook.Datetime__c}</div>
                             </td>
+                            
+                            <template if:true={isAdmin}>
+                                <td data-label="Confidence">
+                                <div class="slds-truncate" >
+                                    <lightning-button label='Cancel Transaction' onclick={handleCancelTransaction}  value = {PassBook}></lightning-button>
+                                </div>
+                            </td>
+                            </template>
+                        
                         <td data-label="Confidence">
                             <div class="slds-truncate" >
-                                <lightning-button label='Email Transaction' onclick={handleEmail} value = {PassBook}></lightning-button>
+                                <lightning-button label='Email Transaction' disabled={isAdmin} onclick={handleEmail} value = {PassBook}></lightning-button>
                             </div>
                         </td>
                     </tr>

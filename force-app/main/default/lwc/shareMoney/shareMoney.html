@@ -1,6 +1,7 @@
 <template>
 
     <template if:true = {showFriendList}>
+        <lightning-input type = "text" onchange = {nameCapture} placeholder="Search for friend"></lightning-input> <br/> 
     <table class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered">
         <thead>
         <tr class="slds-line-height_reset">
@@ -61,6 +62,11 @@
             <lightning-button
             label="Send"
             onclick={handleSend}
+            ></lightning-button>
+            &nbsp;
+            <lightning-button
+            label="Low Balance inform "
+            onclick={handleLowBalance}
             ></lightning-button>
     </template>
 </template>
